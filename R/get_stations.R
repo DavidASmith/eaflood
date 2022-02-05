@@ -56,6 +56,6 @@ get_stations <- function(parameter_name = NULL,
 
   response <- jsonlite::fromJSON(url)
 
-  stations <- response$items
-  stations
+  response$items
+
 }
