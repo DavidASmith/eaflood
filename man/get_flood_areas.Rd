@@ -4,10 +4,10 @@
 \alias{get_flood_areas}
 \title{Get the flood areas from EA}
 \usage{
-get_flood_areas(lat = NULL, long = NULL, dist = NULL)
+get_flood_areas(lat = NULL, long = NULL, dist = NULL, limit = NULL)
 }
 \arguments{
-\item{dist}{}
+\item{limit}{}
 }
 \value{
 

@@ -11,11 +11,12 @@ get_readings(
   today = NULL,
   start_date = NULL,
   end_date = NULL,
-  since = NULL
+  since = NULL,
+  limit = NULL
 )
 }
 \arguments{
-\item{since}{}
+\item{limit}{}
 }
 \value{
 

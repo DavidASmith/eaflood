@@ -8,6 +8,7 @@
 #' @param end_date
 #' @param station
 #' @param since
+#' @param limit
 #'
 #' @return
 #' @export
@@ -19,7 +20,8 @@ get_readings <- function(measure = NULL,
                          today = NULL,
                          start_date = NULL,
                          end_date = NULL,
-                         since = NULL){
+                         since = NULL,
+                         limit = NULL){
 
   # If no measure or station arguments are passed into function
   if(is.null(measure) & is.null(station)){
@@ -27,7 +29,8 @@ get_readings <- function(measure = NULL,
   url$query <- list(latest = latest,
                     today = today, # Check how this behaves,
                     startdate = start_date,
-                    enddate = end_date)
+                    enddate = end_date,
+                    '_limit' = limit)
   url <- httr::build_url(url)
   } else if (!is.null(measure)){
     # If a measure is specified
