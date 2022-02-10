@@ -21,7 +21,8 @@ get_readings <- function(measure = NULL,
                          start_date = NULL,
                          end_date = NULL,
                          since = NULL,
-                         limit = NULL){
+                         limit = NULL,
+                         sorted = TRUE){
 
   # If no measure or station arguments are passed into function
   if(is.null(measure) & is.null(station)){
@@ -30,8 +31,8 @@ get_readings <- function(measure = NULL,
                     today = today, # Check how this behaves,
                     startdate = start_date,
                     enddate = end_date,
+                    '_sorted' = sorted,
                     '_limit' = limit)
-  url <- httr::build_url(url)
   } else if (!is.null(measure)){
     # If a measure is specified
     url <- httr::parse_url(paste0("http://environment.data.gov.uk/flood-monitoring/id/measures/",
@@ -41,20 +42,28 @@ get_readings <- function(measure = NULL,
                       today = today, # Check how this behaves,
                       startdate = start_date,
                       enddate = end_date,
-                      since = since)
+                      since = since,
+                      '_sorted' = sorted,
+                      '_limit' = limit)
   } else {
     url <- httr::parse_url(paste0("http://environment.data.gov.uk/flood-monitoring/id/stations/",
-                                  measure,
+                                  station,
                                   "/readings"))
     url$query <- list(latest = latest,
                       today = today, # Check how this behaves,
                       startdate = start_date,
                       enddate = end_date,
-                      since = since)
+                      since = since,
+                      '_sorted' = sorted,
+                      '_limit' = limit)
   }
+
+  url <- httr::build_url(url)
 
   response <- jsonlite::fromJSON(url)
 
-  response$items
+  out <- response$items
+  out$dateTime <-lubridate::ymd_hms(out$dateTime)
+  out
 
 }

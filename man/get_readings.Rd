@@ -12,7 +12,8 @@ get_readings(
   start_date = NULL,
   end_date = NULL,
   since = NULL,
-  limit = NULL
+  limit = NULL,
+  sorted = TRUE
 )
 }
 \arguments{

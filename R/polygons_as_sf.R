@@ -7,6 +7,6 @@
 #'
 #' @examples
 polygons_as_sf <- function(x){
-  x <- lapply(polygon_url, st_read)
-  bind_rows(x)
+  x <- lapply(x, sf::st_read, quiet = TRUE)
+  dplyr::bind_rows(x)
 }
