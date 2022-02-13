@@ -12,7 +12,8 @@ Imports:
     httr,
     jsonlite,
     sf,
-    dplyr
+    dplyr, 
+    ggplot2
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 
