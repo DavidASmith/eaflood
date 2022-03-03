@@ -26,26 +26,29 @@ library(lubridate)
 library(dplyr)
 ```
 
+The `eaflood` package provides access to data from the 
+[Environment Agency FloodMonitoring API](https://environment.data.gov.uk/flood-monitoring/doc/reference).
+
+The package also includes functions for plotting the returned data. This 
+vignette aims to help you get started using the package to explore flood 
+warnings and river data.
+
 # Get flood warnings
+
+The Environment Agency issue warnings of floods that cover specific warning or 
+alert areas. The floods API provides a listing of all current such warnings and 
+is updated every 15 minutes. Flood warnings can be retrieved with 
+`get_flood_warnings()`.
+
 
 ```{r}
 flood_warnings <- get_flood_warnings()
-flood_warnings %>% 
-  tibble()
-
-flood_warning_polygons <- polygons_as_sf(flood_warnings$floodArea$polygon)
-flood_warning_polygons$severity <- flood_warnings$severity
-
-
-flood_warning_polygons <- flood_warning_polygons[st_is_valid(flood_warning_polygons), ]
-st_is_valid(flood_warning_polygons)
-
-tmap_mode("view")
-
-tm_basemap() +
-  tm_shape(flood_warning_polygons) +
-  tm_polygons(col = "severity", alpha = 0.5)
+flood_warnings
 ```
+
+You can provide arguments to `get_flood_warnings()` to limit returned warnings 
+to a particular county or within a given distance of a particular location. 
+See ?get_flood_warnings for more information.
 
 # Flood areas
 

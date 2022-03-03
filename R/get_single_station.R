@@ -1,4 +1,4 @@
-#' Get details of measurement stations from the EA
+#' Get details of single measurement station from the EA
 #'
 #'
 #' @param x

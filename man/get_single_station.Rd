@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_single_station.R
 \name{get_single_station}
 \alias{get_single_station}
-\title{Get details of measurement stations from the EA}
+\title{Get details of single measurement station from the EA}
 \usage{
 get_single_station(x)
 }
@@ -13,5 +13,5 @@ get_single_station(x)
 
 }
 \description{
-Get details of measurement stations from the EA
+Get details of single measurement station from the EA
 }
