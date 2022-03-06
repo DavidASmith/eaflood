@@ -50,25 +50,29 @@ You can provide arguments to `get_flood_warnings()` to limit returned warnings
 to a particular county or within a given distance of a particular location. 
 See ?get_flood_warnings for more information.
 
+You can also visualise flood warnings in an interactive map.
+
+```{r}
+plot_flood_warnings()
+```
+
+Note that the flood warnings shown here are as current when this vignette was generated, not those currently active. 
+
 # Flood areas
 
 ```{r}
-flood_areas <- get_flood_areas(lat = 50.35611122908188, 
-                               lon = -4.455208546257289, 
-                               dist = 25)
-
-flood_areas %>% 
-  tibble()
-
-flood_areas_polygons <- polygons_as_sf(flood_areas$polygon) %>% 
-  st_make_valid()
-
-flood_areas_polygons <- flood_areas_polygons[st_is_valid(flood_areas_polygons), ]
-
-tm_basemap() +
-  tm_shape(flood_areas_polygons) +
-  tm_polygons(alpha = 0.5)
+flood_areas <- get_flood_areas(lat = 53.38,
+                               lon = -1.46,
+                               dist = 10)
 ```
+
+```{r}
+plot_flood_areas(lat = 53.38,
+                               lon = -1.46,
+                               dist = 10)
+```
+
+
 
 # Get stations
 
@@ -109,5 +113,9 @@ readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m")
 
 readings_measure %>% 
   ggplot(aes(dateTime, value)) + geom_line()
+```
+
+```{r}
+plot_measure_readings("L0607-level-stage-i-15_min-m")
 ```
 
