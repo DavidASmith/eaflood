@@ -33,7 +33,7 @@ plot_flood_warnings <- function(min_severity = 3,
 
   invalid_polygon <- polygon$TA_NAME[!polygon_is_valid]
 
-  if(!is.null(invalid_polygon)) {
+  if(any(!polygon_is_valid)) {
     warning(length(invalid_polygon),
             " invalid geometries not plotted: ",
             paste(invalid_polygon, collapse = ", "), ".")
