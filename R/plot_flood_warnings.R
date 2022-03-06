@@ -1,12 +1,16 @@
 #' Plot flood warnings on interactive map
 #'
-#' @param min_severity
-#' @param county
-#' @param lat
-#' @param long
-#' @param dist
+#' @param min_severity Return only warnings which at least as severe as this
+#' level.
+#' @param county Return only warnings applying to flood areas whose county name
+#' contains the submitted string. Can be a list of county names separated by
+#' "," in which case alerts which mention any of the named counties will be
+#' returned.
+#' @param lat,long,dist Return only warnings applying to flood areas which are
+#' within \code{dist} km of the given latitude/longitude (in WGS84
+#' coordinates), this may be approximated by a bounding box.
 #'
-#' @return
+#' @return A tmap object. Interactive exploration of flood warnings.
 #' @export
 #'
 #' @examples

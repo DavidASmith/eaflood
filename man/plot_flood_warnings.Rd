@@ -13,10 +13,20 @@ plot_flood_warnings(
 )
 }
 \arguments{
-\item{dist}{}
+\item{min_severity}{Return only warnings which at least as severe as this
+level.}
+
+\item{county}{Return only warnings applying to flood areas whose county name
+contains the submitted string. Can be a list of county names separated by
+"," in which case alerts which mention any of the named counties will be
+returned.}
+
+\item{lat, long, dist}{Return only warnings applying to flood areas which are
+within \code{dist} km of the given latitude/longitude (in WGS84
+coordinates), this may be approximated by a bounding box.}
 }
 \value{
-
+A tmap object. Interactive exploration of flood warnings.
 }
 \description{
 Plot flood warnings on interactive map
