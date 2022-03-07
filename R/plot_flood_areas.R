@@ -1,8 +1,8 @@
 #' Plot flood areas on interactive map
 #'
-#' @param lat
-#' @param long
-#' @param dist
+#' @param lat,long,dist Return only warnings applying to flood areas which are
+#' within \code{dist} km of the given latitude/longitude (in WGS84
+#' coordinates), this may be approximated by a bounding box.
 #' @param limit
 #'
 #' @return A tmap object. Interactive exploration of flood warnings.
@@ -23,9 +23,9 @@ plot_flood_areas <- function(lat = NULL,
 
   polygon <- cbind(polygon, x)
 
-  polygon <- st_make_valid(polygon)
+  polygon <- sf::st_make_valid(polygon)
 
-  polygon_is_valid <- st_is_valid(polygon)
+  polygon_is_valid <- sf::st_is_valid(polygon)
 
   invalid_polygon <- polygon$TA_NAME[!polygon_is_valid]
 
@@ -37,10 +37,10 @@ plot_flood_areas <- function(lat = NULL,
 
   valid_polygon <- polygon[polygon_is_valid, ]
 
-  tmap_mode("view")
+  tmap::tmap_mode("view")
 
-  tm_basemap() +
-    tm_shape(valid_polygon) +
-    tm_polygons(alpha = 0.5)
+  tmap::tm_basemap() +
+    tmap::tm_shape(valid_polygon) +
+    tmap::tm_polygons(alpha = 0.5)
 
 }

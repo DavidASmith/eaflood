@@ -1,8 +1,16 @@
 #' Plot readings for a given measure
 #'
-#' @param x
+#' Readings for each of the published measures are available for the recent
+#' period (up to the last four weeks). Longer historic data records may be
+#' available separately. Each reading comprises a reference to the measure
+#' being read (identified by its URI), a date time stamp for when the reading
+#' applies and a numeric value. The set of readings is updated every 15
+#' minutes, but the individual measures may be updated less frequently than
+#' this.
 #'
-#' @return
+#' @param x Measure URI.
+#'
+#' @return ggplot2 plot object.
 #' @export
 #'
 #' @examples
@@ -16,10 +24,10 @@ plot_measure_readings <- function(x) {
 
   # Generic plot for all measures
   p <- readings |>
-    ggplot2::ggplot(aes(dateTime, value)) +
-    labs(title = measure_metadata$label) +
-    xlab(NULL) +
-    ylab(paste0(measure_metadata$parameterName,
+    ggplot2::ggplot(ggplot2::aes(x = dateTime, y = value)) +
+    ggplot2::labs(title = measure_metadata$label) +
+    ggplot2::xlab(NULL) +
+    ggplot2::ylab(paste0(measure_metadata$parameterName,
                 " (",
                 measure_metadata$unitName,
                 ")"))
@@ -28,27 +36,27 @@ plot_measure_readings <- function(x) {
   if(measure_metadata$parameter == "level" & measure_metadata$qualifier == "Stage"){
 
     p <- p +
-      geom_line() +
-      geom_hline(yintercept = station_metadata$stageScale$maxOnRecord$value) +
-      geom_text(aes(x = min(dateTime),
+      ggplot2::geom_line() +
+      ggplot2::geom_hline(yintercept = station_metadata$stageScale$maxOnRecord$value) +
+      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                     y = station_metadata$stageScale$maxOnRecord$value,
                     label = "Max on record",
                     hjust = "inward",
                     vjust = -1)) +
-      geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
-      geom_text(aes(x = min(dateTime),
+      ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
+      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                     y = station_metadata$stageScale$typicalRangeHigh,
                     label = "Typical range high",
                     hjust = "inward",
                     vjust = -1)) +
-      geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
-      geom_text(aes(x = min(dateTime),
+      ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
+      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                     y = station_metadata$stageScale$typicalRangeLow,
                     label = "Typical range low",
                     hjust = "inward",
                     vjust = 1)
       )    +
-      labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
+      ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
            subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
   }
 
@@ -56,24 +64,24 @@ plot_measure_readings <- function(x) {
   # Plot level downstream
   if(measure_metadata$parameter == "level" & measure_metadata$qualifier == "Downstream Stage"){
     p <- p +
-      geom_line()
+      ggplot2::geom_line()
 
     if(!is.null(station_metadata$downstageScale)){
       p <- p +
-        geom_hline(yintercept = station_metadata$downstageScale$maxOnRecord$value) +
-        geom_text(aes(x = min(dateTime),
+        ggplot2::geom_hline(yintercept = station_metadata$downstageScale$maxOnRecord$value) +
+        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                       y = station_metadata$downstageScale$maxOnRecord$value,
                       label = "Max on record",
                       hjust = "inward",
                       vjust = -1)) +
-        geom_hline(yintercept = station_metadata$downstageScale$typicalRangeHigh) +
-        geom_text(aes(x = min(dateTime),
+        ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeHigh) +
+        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                       y = station_metadata$downstageScale$typicalRangeHigh,
                       label = "Typical range high",
                       hjust = "inward",
                       vjust = -1)) +
-        geom_hline(yintercept = station_metadata$downstageScale$typicalRangeLow) +
-        geom_text(aes(x = min(dateTime),
+        ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeLow) +
+        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
                       y = station_metadata$downstageScale$typicalRangeLow,
                       label = "Typical range low",
                       hjust = "inward",
@@ -81,7 +89,7 @@ plot_measure_readings <- function(x) {
     }
 
     p <- p +
-      labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
+      ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
            subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
 
   }
@@ -90,8 +98,8 @@ plot_measure_readings <- function(x) {
   # Plot flow measure
   if(measure_metadata$parameter == "flow"){
     p <- p +
-      geom_line() +
-      labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
+      ggplot2::geom_line() +
+      ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
            subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
   }
 
@@ -99,14 +107,14 @@ plot_measure_readings <- function(x) {
   # Plot temperature measure
   if(measure_metadata$parameter == "temperature"){
     p <- p +
-      geom_line()
+      ggplot2::geom_line()
   }
 
   # Plot rainfall measure
   if(measure_metadata$parameter == "rainfall"){
     p <- p +
-      geom_col() +
-      labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
+      ggplot2::geom_col() +
+      ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
            subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
   }
 
@@ -114,7 +122,7 @@ plot_measure_readings <- function(x) {
   # Plot wind measure
   if(measure_metadata$parameter == "wind"){
     p <- p +
-      geom_line()
+      ggplot2::geom_line()
   }
 
 

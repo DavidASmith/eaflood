@@ -7,11 +7,17 @@
 plot_measure_readings(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Measure URI.}
 }
 \value{
-
+ggplot2 plot object.
 }
 \description{
-Plot readings for a given measure
+Readings for each of the published measures are available for the recent
+period (up to the last four weeks). Longer historic data records may be
+available separately. Each reading comprises a reference to the measure
+being read (identified by its URI), a date time stamp for when the reading
+applies and a numeric value. The set of readings is updated every 15
+minutes, but the individual measures may be updated less frequently than
+this.
 }

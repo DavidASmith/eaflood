@@ -7,13 +7,13 @@
 get_readings(
   measure = NULL,
   station = NULL,
-  latest = NULL,
-  today = NULL,
+  latest = FALSE,
+  today = FALSE,
   start_date = NULL,
   end_date = NULL,
   since = NULL,
   limit = NULL,
-  sorted = TRUE
+  sorted = FALSE
 )
 }
 \arguments{

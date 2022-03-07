@@ -72,14 +72,14 @@ plot_flood_areas(lat = 53.38,
                                dist = 10)
 ```
 
-
-
 # Get stations
 
 ```{r}
-stations <- get_stations()
+stations <- get_stations(search = "Dronfield")
 stations %>% 
   tibble()
+
+get_stations(town = "Leeds")
 ```
 
 # Get measures
@@ -98,7 +98,7 @@ measures %>%
 # Get readings
 
 ```{r}
-readings <- get_readings(station = "3210TH")
+readings <- get_readings(station = "3210TH", latest = TRUE)
 readings %>% 
     tibble()
 
@@ -109,7 +109,7 @@ readings %>%
 ```
 
 ```{r}
-readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m")
+readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m", start_date = ymd("2022-03-01"), end_date = "2022-03-05")
 
 readings_measure %>% 
   ggplot(aes(dateTime, value)) + geom_line()

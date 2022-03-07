@@ -1,19 +1,22 @@
 Package: eaflood
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Access to the Environment Agency Real Time Flood Monitoring API
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("David", "Smith", email = "david.alex.smith@gmail.com", 
+    role = c("aut", "cre"))
+Description: Access to the Environment Agency real time flood monitoring API. 
+    This uses Environment Agency flood and river level data from the real-time data 
+    API (Beta) <https://environment.data.gov.uk/flood-monitoring/doc/reference>.
+License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
     httr,
     jsonlite,
     sf,
     dplyr, 
-    ggplot2
+    ggplot2,
+    tmap, 
+    lubridate
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 

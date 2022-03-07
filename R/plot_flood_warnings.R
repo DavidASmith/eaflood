@@ -31,9 +31,9 @@ plot_flood_warnings <- function(min_severity = 3,
 
   polygon <- cbind(polygon, x)
 
-  polygon <- st_make_valid(polygon)
+  polygon <- sf::st_make_valid(polygon)
 
-  polygon_is_valid <- st_is_valid(polygon)
+  polygon_is_valid <- sf::st_is_valid(polygon)
 
   invalid_polygon <- polygon$TA_NAME[!polygon_is_valid]
 
@@ -45,10 +45,10 @@ plot_flood_warnings <- function(min_severity = 3,
 
   valid_polygon <- polygon[polygon_is_valid, ]
 
-  tmap_mode("view")
+  tmap::tmap_mode("view")
 
-  tm_basemap() +
-    tm_shape(valid_polygon) +
-    tm_polygons(col = "severity", alpha = 0.5)
+  tmap::tm_basemap() +
+    tmap::tm_shape(valid_polygon) +
+    tmap::tm_polygons(col = "severity", alpha = 0.5)
 
 }

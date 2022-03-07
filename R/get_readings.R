@@ -1,12 +1,14 @@
 #' Get readings from measurement stations via the EA API
 #'
 #'
-#' @param measure
-#' @param latest
-#' @param today
-#' @param start_date
-#' @param end_date
-#' @param station
+#' @param measure Return readings only for the given measure URI.
+#' @param latest Return only the most recently available reading for each
+#' included measure.
+#' @param today Return all the readings taken today for each included measure.
+#' @param start_date,end_date Return the readings taken on the specified range
+#' of days for each included measure, up to the specified limit.
+#' @param station Return only readings of measures which are available from the
+#' station with the given URI.
 #' @param since
 #' @param limit
 #'
@@ -16,13 +18,33 @@
 #' @examples
 get_readings <- function(measure = NULL,
                          station = NULL,
-                         latest = NULL,
-                         today = NULL,
+                         latest = FALSE,
+                         today = FALSE,
                          start_date = NULL,
                          end_date = NULL,
                          since = NULL,
                          limit = NULL,
-                         sorted = TRUE){
+                         sorted = FALSE){
+
+  # Boolean arguments must be represented as null or "" to be properly
+  # represented in built URL
+  if(latest){
+    latest = ""
+  } else {
+    latest = NULL
+  }
+
+  if(today){
+    today = ""
+  } else {
+    today = NULL
+  }
+
+  if(sorted){
+    sorted = ""
+  } else {
+    sorted = NULL
+  }
 
   # If no measure or station arguments are passed into function
   if(is.null(measure) & is.null(station)){

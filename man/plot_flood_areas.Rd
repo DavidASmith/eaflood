@@ -7,6 +7,10 @@
 plot_flood_areas(lat = NULL, long = NULL, dist = NULL, limit = NULL)
 }
 \arguments{
+\item{lat, long, dist}{Return only warnings applying to flood areas which are
+within \code{dist} km of the given latitude/longitude (in WGS84
+coordinates), this may be approximated by a bounding box.}
+
 \item{limit}{}
 }
 \value{
