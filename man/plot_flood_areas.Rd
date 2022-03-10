@@ -11,7 +11,7 @@ plot_flood_areas(lat = NULL, long = NULL, dist = NULL, limit = NULL)
 within \code{dist} km of the given latitude/longitude (in WGS84
 coordinates), this may be approximated by a bounding box.}
 
-\item{limit}{}
+\item{limit}{Return a maximum of these items from the list.}
 }
 \value{
 A tmap object. Interactive exploration of flood warnings.

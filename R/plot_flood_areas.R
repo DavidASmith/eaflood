@@ -3,7 +3,7 @@
 #' @param lat,long,dist Return only warnings applying to flood areas which are
 #' within \code{dist} km of the given latitude/longitude (in WGS84
 #' coordinates), this may be approximated by a bounding box.
-#' @param limit
+#' @param limit Return a maximum of these items from the list.
 #'
 #' @return A tmap object. Interactive exploration of flood warnings.
 #' @export

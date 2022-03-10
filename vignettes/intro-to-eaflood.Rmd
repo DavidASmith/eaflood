@@ -27,7 +27,8 @@ library(dplyr)
 ```
 
 The `eaflood` package provides access to data from the 
-[Environment Agency FloodMonitoring API](https://environment.data.gov.uk/flood-monitoring/doc/reference).
+[Environment Agency FloodMonitoring API](https://environment.data.gov.uk/flood-monitoring/doc/reference) 
+covering flood areas in England.
 
 The package also includes functions for plotting the returned data. This 
 vignette aims to help you get started using the package to explore flood 
@@ -40,10 +41,8 @@ alert areas. The floods API provides a listing of all current such warnings and
 is updated every 15 minutes. Flood warnings can be retrieved with 
 `get_flood_warnings()`.
 
-
 ```{r}
 flood_warnings <- get_flood_warnings()
-flood_warnings
 ```
 
 You can provide arguments to `get_flood_warnings()` to limit returned warnings 
@@ -64,6 +63,7 @@ Note that the flood warnings shown here are as current when this vignette was ge
 flood_areas <- get_flood_areas(lat = 53.38,
                                lon = -1.46,
                                dist = 10)
+tibble(flood_areas)
 ```
 
 ```{r}
@@ -99,8 +99,7 @@ measures %>%
 
 ```{r}
 readings <- get_readings(station = "3210TH", latest = TRUE)
-readings %>% 
-    tibble()
+tibble(readings)
 
 readings %>% 
   ggplot(aes(x = dateTime, value)) + 
@@ -109,13 +108,13 @@ readings %>%
 ```
 
 ```{r}
-readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m", start_date = ymd("2022-03-01"), end_date = "2022-03-05")
+readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m", since = ymd("2022-03-06"))
 
 readings_measure %>% 
   ggplot(aes(dateTime, value)) + geom_line()
 ```
 
-```{r}
+```{r fig.height=4, fig.width=6}
 plot_measure_readings("L0607-level-stage-i-15_min-m")
 ```
 

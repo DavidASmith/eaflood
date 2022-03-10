@@ -65,5 +65,11 @@ get_flood_warnings <- function(min_severity = 3,
   response <- jsonlite::fromJSON(url)
 
   flood_alerts <- response$items
-  flood_alerts
+
+  if(class(flood_alerts) == "list" & length(flood_alerts) == 0){
+    message("No flood warnings for given criteria.")
+    NULL
+  } else {
+    flood_alerts
+  }
 }

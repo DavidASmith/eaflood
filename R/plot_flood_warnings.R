@@ -26,6 +26,10 @@ plot_flood_warnings <- function(min_severity = 3,
                           long = long,
                           dist = dist)
 
+  if(is.null(x)){
+    return(NULL)
+  }
+
   polygon_url <- x$floodArea$polygon
   polygon <- polygons_as_sf(polygon_url)
 

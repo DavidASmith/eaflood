@@ -2,16 +2,18 @@
 % Please edit documentation in R/polygons_as_sf.R
 \name{polygons_as_sf}
 \alias{polygons_as_sf}
-\title{Download Geo JSON polygons and return as single simple features (sf)}
+\title{Download Geo JSON polygons and return as single simple features (sf)
+dataframe}
 \usage{
 polygons_as_sf(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Character vector of URLs to GeoJSON polygons.}
 }
 \value{
-
+sf (simple features) geographically aware dataframe.
 }
 \description{
 Download Geo JSON polygons and return as single simple features (sf)
+dataframe
 }

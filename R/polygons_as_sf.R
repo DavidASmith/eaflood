@@ -1,8 +1,9 @@
 #' Download Geo JSON polygons and return as single simple features (sf)
+#' dataframe
 #'
-#' @param x
+#' @param x Character vector of URLs to GeoJSON polygons.
 #'
-#' @return
+#' @return sf (simple features) geographically aware dataframe.
 #' @export
 #'
 #' @examples

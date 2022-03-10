@@ -1,12 +1,14 @@
 Package: eaflood
 Type: Package
-Title: Access to the Environment Agency Real Time Flood Monitoring API
+Title: Access to the Environment Agency Real Time Flood Monitoring API for 
+    England
 Version: 0.1.0
 Authors@R: person("David", "Smith", email = "david.alex.smith@gmail.com", 
     role = c("aut", "cre"))
-Description: Access to the Environment Agency real time flood monitoring API. 
-    This uses Environment Agency flood and river level data from the real-time data 
-    API (Beta) <https://environment.data.gov.uk/flood-monitoring/doc/reference>.
+Description: Access to the Environment Agency real time flood monitoring API 
+    for England. This uses Environment Agency flood and river level data from 
+    the real-time data API (Beta) 
+    <https://environment.data.gov.uk/flood-monitoring/doc/reference>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
@@ -21,5 +23,6 @@ LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 
     rmarkdown,
-    knitr
+    knitr, 
+    tibble
 VignetteBuilder: knitr

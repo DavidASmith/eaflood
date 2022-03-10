@@ -9,10 +9,14 @@
 #' of days for each included measure, up to the specified limit.
 #' @param station Return only readings of measures which are available from the
 #' station with the given URI.
-#' @param since
-#' @param limit
+#' @param since Return the readings taken since the given date time
+#' (not inclusive), up to the specified limit. Will accept a simple date value
+#' such as 2016-09-07 which will be interpreted as 2016-09-07T:00:00:00Z.
+#' @param limit Return a maximum of these items from the list. By default the
+#' readings API endpoints have a limit of 500 items, this can be modified by
+#' providing an explicit limit value up to a hard limit of 10000 items.
 #'
-#' @return
+#' @return A data frame of the readings.
 #' @export
 #'
 #' @examples
