@@ -13,7 +13,7 @@ get_readings(
   end_date = NULL,
   since = NULL,
   limit = NULL,
-  sorted = FALSE
+  sorted = TRUE
 )
 }
 \arguments{
@@ -37,6 +37,10 @@ such as 2016-09-07 which will be interpreted as 2016-09-07T:00:00:00Z.}
 \item{limit}{Return a maximum of these items from the list. By default the
 readings API endpoints have a limit of 500 items, this can be modified by
 providing an explicit limit value up to a hard limit of 10000 items.}
+
+\item{sorted}{Order the array of returned readings into descending order by
+date, this done before the limits is applied thus enabling you to fetch the
+most recent n readings.}
 }
 \value{
 A data frame of the readings.

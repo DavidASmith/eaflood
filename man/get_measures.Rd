@@ -31,7 +31,8 @@ the station with the given reference identifier.}
 station with the given URI.}
 }
 \value{
-
+A dataframe of the Environment Agency flood monitoring measures for
+the given criteria.
 }
 \description{
 In additional to listing stations, which includes the information on the

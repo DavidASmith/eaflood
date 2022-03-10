@@ -1,12 +1,12 @@
 #' Get details of single measurement station from the EA
 #'
 #'
-#' @param x
+#' @param x Environment Agency API Station identifier
 #'
-#' @return
+#' @return A list of station information
 #' @export
 #'
-#' @examples
+#' @examples get_single_station("1491TH")
 get_single_station <- function(x){
   url <- httr::parse_url("http://environment.data.gov.uk/flood-monitoring/id/stations")
   url$path <- c(url$path, "/", x)

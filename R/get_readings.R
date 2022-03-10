@@ -15,6 +15,9 @@
 #' @param limit Return a maximum of these items from the list. By default the
 #' readings API endpoints have a limit of 500 items, this can be modified by
 #' providing an explicit limit value up to a hard limit of 10000 items.
+#' @param sorted Order the array of returned readings into descending order by
+#' date, this done before the limits is applied thus enabling you to fetch the
+#' most recent n readings.
 #'
 #' @return A data frame of the readings.
 #' @export
@@ -28,7 +31,7 @@ get_readings <- function(measure = NULL,
                          end_date = NULL,
                          since = NULL,
                          limit = NULL,
-                         sorted = FALSE){
+                         sorted = TRUE){
 
   # Boolean arguments must be represented as null or "" to be properly
   # represented in built URL

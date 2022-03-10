@@ -18,7 +18,8 @@ Imports:
     dplyr, 
     ggplot2,
     tmap, 
-    lubridate
+    lubridate,
+    rlang
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 

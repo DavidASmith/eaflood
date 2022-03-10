@@ -7,11 +7,14 @@
 get_single_measure(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Environment Agency API measure identifier}
 }
 \value{
-
+A list of measure information.
 }
 \description{
 Get details of single measure from the EA API
+}
+\examples{
+get_single_measure("1491TH-level-stage-i-15_min-mASD")
 }

@@ -12,6 +12,7 @@
 #'
 #' @return ggplot2 plot object.
 #' @export
+#' @importFrom rlang .data
 #'
 #' @examples
 plot_measure_readings <- function(x) {
@@ -24,7 +25,7 @@ plot_measure_readings <- function(x) {
 
   # Generic plot for all measures
   p <- readings |>
-    ggplot2::ggplot(ggplot2::aes(x = dateTime, y = value)) +
+    ggplot2::ggplot(ggplot2::aes_string(x = "dateTime", y = "value")) +
     ggplot2::labs(title = measure_metadata$label) +
     ggplot2::xlab(NULL) +
     ggplot2::ylab(paste0(measure_metadata$parameterName,
@@ -38,19 +39,19 @@ plot_measure_readings <- function(x) {
     p <- p +
       ggplot2::geom_line() +
       ggplot2::geom_hline(yintercept = station_metadata$stageScale$maxOnRecord$value) +
-      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                     y = station_metadata$stageScale$maxOnRecord$value,
                     label = "Max on record",
                     hjust = "inward",
                     vjust = -1)) +
       ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
-      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                     y = station_metadata$stageScale$typicalRangeHigh,
                     label = "Typical range high",
                     hjust = "inward",
                     vjust = -1)) +
       ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
-      ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                     y = station_metadata$stageScale$typicalRangeLow,
                     label = "Typical range low",
                     hjust = "inward",
@@ -69,19 +70,19 @@ plot_measure_readings <- function(x) {
     if(!is.null(station_metadata$downstageScale)){
       p <- p +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$maxOnRecord$value) +
-        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                       y = station_metadata$downstageScale$maxOnRecord$value,
                       label = "Max on record",
                       hjust = "inward",
                       vjust = -1)) +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeHigh) +
-        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                       y = station_metadata$downstageScale$typicalRangeHigh,
                       label = "Typical range high",
                       hjust = "inward",
                       vjust = -1)) +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeLow) +
-        ggplot2::geom_text(ggplot2::aes(x = min(dateTime),
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                       y = station_metadata$downstageScale$typicalRangeLow,
                       label = "Typical range low",
                       hjust = "inward",

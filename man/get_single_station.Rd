@@ -7,11 +7,14 @@
 get_single_station(x)
 }
 \arguments{
-\item{x}{}
+\item{x}{Environment Agency API Station identifier}
 }
 \value{
-
+A list of station information
 }
 \description{
 Get details of single measurement station from the EA
+}
+\examples{
+get_single_station("1491TH")
 }

@@ -17,7 +17,8 @@
 #' @param station_reference Return only those measures which are available from
 #' the station with the given reference identifier.
 #'
-#' @return
+#' @return A dataframe of the Environment Agency flood monitoring measures for
+#' the given criteria.
 #' @export
 #'
 #' @examples
