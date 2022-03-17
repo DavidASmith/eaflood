@@ -9,15 +9,34 @@
 #' this.
 #'
 #' @param x Measure URI.
+#' @param today Return all the readings taken today for each included measure.
+#' @param start_date,end_date Return the readings taken on the specified range
+#' of days for each included measure, up to the specified limit.
+#' @param since Return the readings taken since the given date time
+#' (not inclusive), up to the specified limit. Will accept a simple date value
+#' such as 2016-09-07 which will be interpreted as 2016-09-07T:00:00:00Z.
+#' @param limit Return a maximum of these items from the list. By default the
+#' readings API endpoints have a limit of 500 items, this can be modified by
+#' providing an explicit limit value up to a hard limit of 10000 items.
 #'
 #' @return ggplot2 plot object.
 #' @export
 #' @importFrom rlang .data
 #'
 #' @examples
-plot_measure_readings <- function(x) {
+plot_measure_readings <- function(x,
+                                  today = FALSE,
+                                  start_date = NULL,
+                                  end_date = NULL,
+                                  since = NULL,
+                                  limit = NULL) {
 
-  readings <- get_readings(measure = x)
+  readings <- get_readings(measure = x,
+                           today = today,
+                           start_date = start_date,
+                           end_date = end_date,
+                           since = since,
+                           limit = limit)
 
   measure_metadata <- get_single_measure(x)
 
@@ -43,13 +62,13 @@ plot_measure_readings <- function(x) {
                     y = station_metadata$stageScale$maxOnRecord$value,
                     label = "Max on record",
                     hjust = "inward",
-                    vjust = -1)) +
+                    vjust = 1)) +
       ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
       ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                     y = station_metadata$stageScale$typicalRangeHigh,
                     label = "Typical range high",
                     hjust = "inward",
-                    vjust = -1)) +
+                    vjust = 1)) +
       ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
       ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                     y = station_metadata$stageScale$typicalRangeLow,
@@ -74,13 +93,13 @@ plot_measure_readings <- function(x) {
                       y = station_metadata$downstageScale$maxOnRecord$value,
                       label = "Max on record",
                       hjust = "inward",
-                      vjust = -1)) +
+                      vjust = 1)) +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeHigh) +
         ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                       y = station_metadata$downstageScale$typicalRangeHigh,
                       label = "Typical range high",
                       hjust = "inward",
-                      vjust = -1)) +
+                      vjust = 1)) +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeLow) +
         ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
                       y = station_metadata$downstageScale$typicalRangeLow,

@@ -63,6 +63,10 @@ You can also visualise flood warnings in an interactive map.
 plot_flood_warnings()
 ```
 
+Note that any invalid geometries (as evaluated by `sf::st_is_valid()`) present 
+in the GeoJSON polygons returned by the API are not plotted, but are indicated 
+in a warning message.
+
 Note that the flood warnings shown here are as current when this vignette was 
 generated, not those currently active. If no flood warnings were available when 
 the vignette was built, the map will not be displayed.
@@ -230,8 +234,28 @@ readings %>%
   ylab("Level (m)")
 ```
 
+## Plot readings 
+
+You can also use `plot_measure_readings()` to plot a labelled chart of a given measure. For example...
 
 ```{r fig.height=4, fig.width=6}
 plot_measure_readings("L0607-level-stage-i-15_min-m")
 ```
 
+This function attempts to return the most appropriate chart for the selected measure. For example, here is a flow measure... 
+
+```{r fig.height=4, fig.width=6}
+plot_measure_readings("2606-flow--i-15_min-m3_s")
+```
+
+Here's a rainfall measure...
+
+```{r fig.height=4, fig.width=6}
+plot_measure_readings("E7050-rainfall-tipping_bucket_raingauge-t-15_min-mm")
+```
+
+And temperature...
+
+```{r fig.height=4, fig.width=6}
+plot_measure_readings("3680-temperature-dry_bulb-i-15_min-deg_C")
+```

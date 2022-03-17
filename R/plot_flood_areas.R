@@ -31,8 +31,8 @@ plot_flood_areas <- function(lat = NULL,
 
   if(any(!polygon_is_valid)) {
     warning(length(invalid_polygon),
-            " invalid geometries not plotted: ",
-            paste(invalid_polygon, collapse = ", "), ".")
+            " invalid geometries not plotted: \n",
+            paste(invalid_polygon, collapse = "\n"))
   }
 
   valid_polygon <- polygon[polygon_is_valid, ]
