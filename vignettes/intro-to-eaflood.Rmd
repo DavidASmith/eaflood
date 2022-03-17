@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, include = FALSE}
 library(eaflood)
 library(sf)
 library(tmap)
@@ -43,7 +43,15 @@ is updated every 15 minutes. Flood warnings can be retrieved with
 
 ```{r}
 flood_warnings <- get_flood_warnings()
+
+if(!is.null(flood_warnings)) {
+  tibble(flood_warnings)
+}
 ```
+
+Note that you don't need to use `tibble()` as above. We're only doing that here 
+to print the contents of the dataframe to the vignette in a more easily 
+readable format.
 
 You can provide arguments to `get_flood_warnings()` to limit returned warnings 
 to a particular county or within a given distance of a particular location. 
@@ -51,13 +59,39 @@ See ?get_flood_warnings for more information.
 
 You can also visualise flood warnings in an interactive map.
 
-```{r}
+```{r fig.height=4, fig.width=6}
 plot_flood_warnings()
 ```
 
-Note that the flood warnings shown here are as current when this vignette was generated, not those currently active. 
+Note that the flood warnings shown here are as current when this vignette was 
+generated, not those currently active. If no flood warnings were available when 
+the vignette was built, the map will not be displayed.
 
 # Flood areas
+
+The flood areas API provide information on the geographic regions to which a 
+given flood alert or warning may apply. These comprise Flood Alert Areas and 
+Flood Warning Areas. A Flood Alert Area is a geographical area where it is 
+possible for flooding to occur from rivers, sea and in some locations, 
+groundwater. A single Flood Alert Area may cover a large portion of the 
+floodplain, may contain multiple river catchments of similar characteristics 
+and may contain a number of Flood Warning Areas. A Flood Warning Area is a 
+geographical area where Environment Agency expect flooding to occur and which 
+they provide a Flood Warning Service.
+
+Full information on the areas is available from the Environment Agency Spatial 
+Data Catalogue as a downloadable file and via a Web Feature Service or Web 
+Mapping Service. For convenience we here provide the feature information for 
+each area as a simple JSON format, including a specification of the polygon for 
+each area (as a geoJSON feature in WGS84 coordinates). A typical application 
+should maintain a local copy of the geographic information rather that rely on 
+on-demand downloads of the rather large polygon files.
+
+Each flood warning provides a link (floodArea) to the URI of the flood area to 
+which it applies.
+
+Use `get_flood_areas()` to return the flood areas from the API. For example, 
+to return all flood areas within 10km of the given coordinates... 
 
 ```{r}
 flood_areas <- get_flood_areas(lat = 53.38,
@@ -66,53 +100,136 @@ flood_areas <- get_flood_areas(lat = 53.38,
 tibble(flood_areas)
 ```
 
+You can also limit the number of returned items using the `limit` argument...
+
 ```{r}
-plot_flood_areas(lat = 53.38,
+flood_areas <- get_flood_areas(lat = 53.38,
                                lon = -1.46,
-                               dist = 10)
+                               dist = 10, 
+                               limit = 5)
+tibble(flood_areas)
 ```
+
+Additionally, you can generate an interactive plot of the flood areas...
+
+```{r fig.height=4, fig.width=6}
+plot_flood_areas(lat = 53.38,
+                 lon = -1.46,
+                 dist = 10)
+```
+
+Note that any invalid geometries (as evaluated by `sf::st_is_valid()`) present 
+in the GeoJSON polygons returned by the API are not plotted, but are indicated 
+in a warning message.
 
 # Get stations
 
+The real-time data API provides information on readings of water levels and 
+flows taken at a variety of measurement stations. A given station may provide 
+more than one set of measurements, for example, both water level and flow rate 
+or water level at two different spots (e.g. up-stream and down-stream of a 
+sluice or weir). The API provides metadata on these stations and on the 
+different measures available from each one, as well as the readings themselves.
+
+Use `get_stations()` to get details of measurement stations from the API. For 
+example, to return all stations having a `label` containing `"Dronfield"`... 
+
 ```{r}
 stations <- get_stations(search = "Dronfield")
-stations %>% 
-  tibble()
+tibble(stations)
+```
 
-get_stations(town = "Leeds")
+Or to return all stations having a `town` of `"Leeds"`.
+
+```{r}
+stations <- get_stations(town = "Leeds")
+tibble(stations)
 ```
 
 # Get measures
 
+In additional to listing stations, which includes the information on the 
+measures available from each station, you can list the available measures 
+directly with `get_measures()`
+
+For example, to return all measures available via the API...
+
 ```{r}
 measures <- get_measures()
-measures %>% 
-  tibble()
+tibble(measures)
+```
 
-measures %>% 
-  group_by(stationReference) %>% 
-  summarise(count = n()) %>% 
-  arrange(-count)
+To return only those measures which record river flow...
+
+```{r}
+measures <- get_measures(parameter = "flow")
+tibble(measures)
+```
+
+To return only those measures for a particular station, pass the station 
+reference to the `station_reference` argument. Station reference is given in 
+the `notation` column of the dataframe returned by `get_stations`. 
+
+```{r}
+measures <- get_measures(station_reference = "4169TH")
+tibble(measures)
 ```
 
 # Get readings
 
+Readings for each of the published measures are available for the recent period 
+(up to the last four weeks). Each reading comprises a reference to the measure 
+being read (identified by its URI), a date time stamp for when the reading 
+applies and a numeric value. The set of readings is updated every 15 minutes, 
+but the individual measures may be updated less frequently than this.
+
+To return all readings, use `get_readings()`.
+
+```{r}
+readings <- get_readings(sorted = FALSE, limit = 10)
+tibble(readings)
+```
+
+Note that this is unlikely to be useful unless other arguments are used to 
+filter the returned data. Also note that using `sorted = TRUE` (the default) 
+with an unfiltered query may cause the operation to time out.
+
+See `?get_readings` for a full description of the filtering available. As 
+examples, use the following to return all latest readings for a particular 
+station...
+
 ```{r}
 readings <- get_readings(station = "3210TH", latest = TRUE)
 tibble(readings)
-
-readings %>% 
-  ggplot(aes(x = dateTime, value)) + 
-  geom_line() + 
-  facet_wrap(~measure, ncol = 1, scales = "free_y")
 ```
+
+Or the following to get all readings from today for a particular measure...
 
 ```{r}
-readings_measure <- get_readings(measure = "L0607-level-stage-i-15_min-m", since = ymd("2022-03-06"))
-
-readings_measure %>% 
-  ggplot(aes(dateTime, value)) + geom_line()
+readings <- get_readings(measure = "L0607-level-stage-i-15_min-m", 
+                         today = TRUE)
 ```
+
+Or the following to return all readings from the last three days for a 
+particular measure...
+
+```{r}
+readings <- get_readings(measure = "L0607-level-stage-i-15_min-m", 
+                                 since = today() - 3)
+
+```
+
+We can plot those readings like this...
+
+```{r fig.height=4, fig.width=6}
+readings %>% 
+  ggplot(aes(dateTime, value)) + 
+  geom_line() + 
+  labs(title = "River level for measure L0607-level-stage-i-15_min-m") +
+  xlab("Date") +
+  ylab("Level (m)")
+```
+
 
 ```{r fig.height=4, fig.width=6}
 plot_measure_readings("L0607-level-stage-i-15_min-m")
