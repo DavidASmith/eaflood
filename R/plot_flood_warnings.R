@@ -1,4 +1,4 @@
-#' Plot flood warnings on interactive map
+#' Plot flood warnings on a map
 #'
 #' @param min_severity Return only warnings which at least as severe as this
 #' level.
@@ -9,6 +9,8 @@
 #' @param lat,long,dist Return only warnings applying to flood areas which are
 #' within \code{dist} km of the given latitude/longitude (in WGS84
 #' coordinates), this may be approximated by a bounding box.
+#' @param interactive If TRUE return an interactive map, otherwise a static
+#' image.
 #'
 #' @return A tmap object. Interactive exploration of flood warnings.
 #' @export
@@ -18,7 +20,8 @@ plot_flood_warnings <- function(min_severity = 3,
                                 county = NULL,
                                 lat = NULL,
                                 long = NULL,
-                                dist = NULL) {
+                                dist = NULL,
+                                interactive = TRUE) {
 
   x <- get_flood_warnings(min_severity = min_severity,
                           county = county,
@@ -49,10 +52,21 @@ plot_flood_warnings <- function(min_severity = 3,
 
   valid_polygon <- polygon[polygon_is_valid, ]
 
-  tmap::tmap_mode("view")
+  if(interactive){
 
-  tmap::tm_basemap() +
-    tmap::tm_shape(valid_polygon) +
-    tmap::tm_polygons(col = "severity", alpha = 0.5)
+    tmap::tmap_mode("view")
 
+    tmap::tm_basemap("CartoDB.Positron") +
+      tmap::tm_shape(valid_polygon) +
+      tmap::tm_polygons(col = "severity", alpha = 0.5)
+  } else {
+    tmap::tmap_mode("plot")
+
+    bg <- rosm::osm.raster(sf::st_bbox(valid_polygon), type = "cartolight")
+
+    tmap::tm_shape(bg) +
+      tmap::tm_rgb() +
+      tmap::tm_shape(valid_polygon) +
+      tmap::tm_polygons(col = "severity")
+  }
 }

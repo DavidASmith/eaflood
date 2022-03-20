@@ -2,14 +2,15 @@
 % Please edit documentation in R/plot_flood_warnings.R
 \name{plot_flood_warnings}
 \alias{plot_flood_warnings}
-\title{Plot flood warnings on interactive map}
+\title{Plot flood warnings on a map}
 \usage{
 plot_flood_warnings(
   min_severity = 3,
   county = NULL,
   lat = NULL,
   long = NULL,
-  dist = NULL
+  dist = NULL,
+  interactive = TRUE
 )
 }
 \arguments{
@@ -24,10 +25,13 @@ returned.}
 \item{lat, long, dist}{Return only warnings applying to flood areas which are
 within \code{dist} km of the given latitude/longitude (in WGS84
 coordinates), this may be approximated by a bounding box.}
+
+\item{interactive}{If TRUE return an interactive map, otherwise a static
+image.}
 }
 \value{
 A tmap object. Interactive exploration of flood warnings.
 }
 \description{
-Plot flood warnings on interactive map
+Plot flood warnings on a map
 }

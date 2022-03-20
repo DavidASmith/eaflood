@@ -4,7 +4,13 @@
 \alias{plot_flood_areas}
 \title{Plot flood areas on interactive map}
 \usage{
-plot_flood_areas(lat = NULL, long = NULL, dist = NULL, limit = NULL)
+plot_flood_areas(
+  lat = NULL,
+  long = NULL,
+  dist = NULL,
+  limit = NULL,
+  interactive = TRUE
+)
 }
 \arguments{
 \item{lat, long, dist}{Return only warnings applying to flood areas which are
@@ -12,6 +18,9 @@ within \code{dist} km of the given latitude/longitude (in WGS84
 coordinates), this may be approximated by a bounding box.}
 
 \item{limit}{Return a maximum of these items from the list.}
+
+\item{interactive}{If TRUE return an interactive map, otherwise a static
+image.}
 }
 \value{
 A tmap object. Interactive exploration of flood warnings.

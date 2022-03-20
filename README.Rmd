@@ -1,29 +1,40 @@
+---
+output: github_document
+always_allow_html: true
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # eaflood
 
 <!-- badges: start -->
-
 [![R-CMD-check](https://github.com/DavidASmith/eaflood/workflows/R-CMD-check/badge.svg)](https://github.com/DavidASmith/eaflood/actions)
 <!-- badges: end -->
 
-The `eaflood` package provides access to data from the [Environment
-Agency FloodMonitoring
-API](https://environment.data.gov.uk/flood-monitoring/doc/reference)
+The `eaflood` package provides access to data from the 
+[Environment Agency FloodMonitoring API](https://environment.data.gov.uk/flood-monitoring/doc/reference) 
 covering flood areas in England.
 
 The following data are available:
 
--   Flood warnings
--   Flood areas
--   Monitoring stations
--   Measures (*e.g.* level and flow recorded at the monitoring stations)
--   Readings values for each measure over the previous 4 weeks.
+- Flood warnings
+- Flood areas
+- Monitoring stations
+- Measures (_e.g._ level and flow recorded at the monitoring stations)
+- Readings values for each measure over the previous 4 weeks.
 
 ## Installation
 
-You can install the development version of eaflood from
+You can install the development version of eaflood from 
 [GitHub](https://github.com/) with:
 
 ``` r
@@ -35,40 +46,33 @@ devtools::install_github("DavidASmith/eaflood")
 
 Here a few examples of what you can do with `eaflood`:
 
-``` r
+```{r package}
 library(eaflood)
 ```
 
 Get current flood warnings:
 
-``` r
+```{r flood_warnings, message=FALSE, warning=FALSE}
 plot_flood_warnings(interactive = FALSE)
 ```
+Get flood areas for a given location...
 
-<img src="man/figures/README-flood_warnings-1.png" width="100%" /> Get
-flood areas for a given location…
-
-``` r
+```{r flood_areas, message=FALSE, warning=FALSE}
 plot_flood_areas(lat = 53.38,
                  lon = -1.46,
                  dist = 10, 
                  interactive = FALSE)
 ```
+Get details of available monitoring stations...
 
-<img src="man/figures/README-flood_areas-1.png" width="100%" /> Get
-details of available monitoring stations…
-
-``` r
+```{r stations, message=FALSE, warning=FALSE}
 plot_stations(town = "Gloucester", interactive = FALSE)
 ```
+Get recent readings for a particular measure...
 
-<img src="man/figures/README-stations-1.png" width="100%" /> Get recent
-readings for a particular measure…
-
-``` r
+```{r plot_readings}
 plot_measure_readings("L0607-level-stage-i-15_min-m")
 ```
 
-<img src="man/figures/README-plot_readings-1.png" width="100%" />
 
 See the vignette for more information.

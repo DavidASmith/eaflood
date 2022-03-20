@@ -19,7 +19,8 @@ Imports:
     ggplot2,
     tmap, 
     lubridate,
-    rlang
+    rlang, 
+    rosm
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests: 

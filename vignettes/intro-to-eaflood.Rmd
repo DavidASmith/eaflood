@@ -245,7 +245,7 @@ plot_measure_readings("L0607-level-stage-i-15_min-m")
 This function attempts to return the most appropriate chart for the selected measure. For example, here is a flow measure... 
 
 ```{r fig.height=4, fig.width=6}
-plot_measure_readings("2606-flow--i-15_min-m3_s")
+plot_measure_readings("F1906-flow-logged-i-15_min-m3_s")
 ```
 
 Here's a rainfall measure...
