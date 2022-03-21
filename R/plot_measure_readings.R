@@ -18,6 +18,12 @@
 #' @param limit Return a maximum of these items from the list. By default the
 #' readings API endpoints have a limit of 500 items, this can be modified by
 #' providing an explicit limit value up to a hard limit of 10000 items.
+#' @param show_max Where available, show max on record as reference line on
+#' chart.
+#' @param show_high Where available, show typical high as reference line on
+#' chart.
+#' @param show_low Where available, show typical low as reference line on
+#' chart.
 #'
 #' @return ggplot2 plot object.
 #' @export
@@ -29,7 +35,10 @@ plot_measure_readings <- function(x,
                                   start_date = NULL,
                                   end_date = NULL,
                                   since = NULL,
-                                  limit = NULL) {
+                                  limit = NULL,
+                                  show_max = TRUE,
+                                  show_high = TRUE,
+                                  show_low = TRUE) {
 
   readings <- get_readings(measure = x,
                            today = today,
@@ -50,36 +59,50 @@ plot_measure_readings <- function(x,
     ggplot2::labs(title = measure_metadata$label) +
     ggplot2::xlab(NULL) +
     ggplot2::ylab(paste0(measure_metadata$parameterName,
-                " (",
-                measure_metadata$unitName,
-                ")"))
+                         " (",
+                         measure_metadata$unitName,
+                         ")"))
 
   # Plot level
   if(measure_metadata$parameter == "level" & measure_metadata$qualifier == "Stage"){
 
     p <- p +
       ggplot2::geom_line() +
-      ggplot2::geom_hline(yintercept = station_metadata$stageScale$maxOnRecord$value) +
-      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                    y = station_metadata$stageScale$maxOnRecord$value,
-                    label = "Max on record",
-                    hjust = "inward",
-                    vjust = 1)) +
-      ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
-      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                    y = station_metadata$stageScale$typicalRangeHigh,
-                    label = "Typical range high",
-                    hjust = "inward",
-                    vjust = 1)) +
-      ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
-      ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                    y = station_metadata$stageScale$typicalRangeLow,
-                    label = "Typical range low",
-                    hjust = "inward",
-                    vjust = 1)
-      )    +
       ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
-           subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
+                    subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
+
+    if(show_max) {
+      p <- p +
+        ggplot2::geom_hline(yintercept = station_metadata$stageScale$maxOnRecord$value) +
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
+                                        y = station_metadata$stageScale$maxOnRecord$value,
+                                        label = "Max on record",
+                                        hjust = "inward",
+                                        vjust = 1))
+    }
+
+    if(show_high) {
+      p <- p +
+        ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeHigh) +
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
+                                        y = station_metadata$stageScale$typicalRangeHigh,
+                                        label = "Typical range high",
+                                        hjust = "inward",
+                                        vjust = 1))
+    }
+
+    if(show_low) {
+      p <- p +
+        ggplot2::geom_hline(yintercept = station_metadata$stageScale$typicalRangeLow) +
+        ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
+                                        y = station_metadata$stageScale$typicalRangeLow,
+                                        label = "Typical range low",
+                                        hjust = "inward",
+                                        vjust = 1)
+        )
+    }
+
+
   }
 
 
@@ -89,30 +112,38 @@ plot_measure_readings <- function(x,
       ggplot2::geom_line()
 
     if(!is.null(station_metadata$downstageScale)){
+      if(show_max) {
       p <- p +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$maxOnRecord$value) +
         ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                      y = station_metadata$downstageScale$maxOnRecord$value,
-                      label = "Max on record",
-                      hjust = "inward",
-                      vjust = 1)) +
+                                        y = station_metadata$downstageScale$maxOnRecord$value,
+                                        label = "Max on record",
+                                        hjust = "inward",
+                                        vjust = 1))
+      }
+      if(show_high) {
+      p <- p +
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeHigh) +
         ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                      y = station_metadata$downstageScale$typicalRangeHigh,
-                      label = "Typical range high",
-                      hjust = "inward",
-                      vjust = 1)) +
+                                        y = station_metadata$downstageScale$typicalRangeHigh,
+                                        label = "Typical range high",
+                                        hjust = "inward",
+                                        vjust = 1))
+      }
+      if(show_low) {
+        p <- p+
         ggplot2::geom_hline(yintercept = station_metadata$downstageScale$typicalRangeLow) +
         ggplot2::geom_text(ggplot2::aes(x = min(.data$dateTime),
-                      y = station_metadata$downstageScale$typicalRangeLow,
-                      label = "Typical range low",
-                      hjust = "inward",
-                      vjust = 1))
+                                        y = station_metadata$downstageScale$typicalRangeLow,
+                                        label = "Typical range low",
+                                        hjust = "inward",
+                                        vjust = 1))
+      }
     }
 
     p <- p +
       ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
-           subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
+                    subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
 
   }
 
@@ -122,7 +153,7 @@ plot_measure_readings <- function(x,
     p <- p +
       ggplot2::geom_line() +
       ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
-           subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
+                    subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
   }
 
 
@@ -137,7 +168,7 @@ plot_measure_readings <- function(x,
     p <- p +
       ggplot2::geom_col() +
       ggplot2::labs(title = paste0(station_metadata$label, " - ", station_metadata$riverName),
-           subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
+                    subtitle = paste0(measure_metadata$parameterName, " - ", measure_metadata$qualifier))
   }
 
 

@@ -66,7 +66,7 @@ plot_stations(town = "Gloucester", interactive = FALSE)
 readings for a particular measure…
 
 ``` r
-plot_measure_readings("L0607-level-stage-i-15_min-m")
+plot_measure_readings("L0607-level-stage-i-15_min-m", show_max = FALSE)
 ```
 
 <img src="man/figures/README-plot_readings-1.png" width="100%" />

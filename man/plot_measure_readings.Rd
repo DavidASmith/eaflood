@@ -10,7 +10,10 @@ plot_measure_readings(
   start_date = NULL,
   end_date = NULL,
   since = NULL,
-  limit = NULL
+  limit = NULL,
+  show_max = TRUE,
+  show_high = TRUE,
+  show_low = TRUE
 )
 }
 \arguments{
@@ -28,6 +31,15 @@ such as 2016-09-07 which will be interpreted as 2016-09-07T:00:00:00Z.}
 \item{limit}{Return a maximum of these items from the list. By default the
 readings API endpoints have a limit of 500 items, this can be modified by
 providing an explicit limit value up to a hard limit of 10000 items.}
+
+\item{show_max}{Where available, show max on record as reference line on
+chart.}
+
+\item{show_high}{Where available, show typical high as reference line on
+chart.}
+
+\item{show_low}{Where available, show typical low as reference line on
+chart.}
 }
 \value{
 ggplot2 plot object.
