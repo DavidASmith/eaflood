@@ -43,8 +43,10 @@ plot_measure_readings <- function(x,
   station_metadata <- get_single_station(measure_metadata$stationReference)
 
   # Generic plot for all measures
-  p <- readings |>
-    ggplot2::ggplot(ggplot2::aes_string(x = "dateTime", y = "value")) +
+  p <-
+    ggplot2::ggplot(data = readings,
+                    mapping = ggplot2::aes_string(x = "dateTime",
+                                                  y = "value")) +
     ggplot2::labs(title = measure_metadata$label) +
     ggplot2::xlab(NULL) +
     ggplot2::ylab(paste0(measure_metadata$parameterName,
