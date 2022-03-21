@@ -11,6 +11,8 @@ Description: Access to the Environment Agency real time flood monitoring API
     <https://environment.data.gov.uk/flood-monitoring/doc/reference>.
 License: MIT + file LICENSE
 Encoding: UTF-8
+URL: https://github.com/DavidASmith/eaflood
+Language: en-GB
 Imports:
     httr,
     jsonlite,
