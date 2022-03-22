@@ -30,6 +30,7 @@ plot_flood_warnings <- function(min_severity = 3,
                           dist = dist)
 
   if(is.null(x)){
+    message("No flood warnings returned from API.")
     return(NULL)
   }
 
@@ -51,6 +52,11 @@ plot_flood_warnings <- function(min_severity = 3,
   }
 
   valid_polygon <- polygon[polygon_is_valid, ]
+
+  if(nrow(valid_polygon) == 0) {
+    message("No valid geometry to plot.")
+    return(NULL)
+  }
 
   if(interactive){
 
